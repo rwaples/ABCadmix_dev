@@ -49,6 +49,7 @@ def get_ternary(ts):
         frac_pop1pop2 = span[np.where(inside_n==1)].sum()/L
         frac_pop2pop2 = 1 - (frac_pop1pop1 + frac_pop1pop2)
         ternary[i] = (frac_pop1pop1, frac_pop1pop2, frac_pop2pop2)
+
     return(ternary)
 
 
@@ -67,6 +68,7 @@ def costs_emd(A,B):
     for i in range(A.shape[0]):
         for j in range(B.shape[0]):
             C[i,j] = np.abs((A[i,0] - B[j,0])) + np.abs((A[i,2] - B[j,2]))
+
     return(C)
 
 
@@ -84,6 +86,7 @@ def costs_emd_parallel(A,B):
     for i in nb.prange(A.shape[0]):
         for j in range(B.shape[0]):
             C[i,j] = np.abs((A[i,0] - B[j,0])) + np.abs((A[i,2] - B[j,2]))
+
     return(C)
 
 
@@ -92,6 +95,7 @@ def delta_emd(A, B):
     ancestry fractions by matching up pairs of individuals, one from each array.
     """
     cost_mat = costs_emd(A,B)
-    assignment = linear_sum_assignment(costs)
-    delta = costs[assignment].sum()
+    assignment = linear_sum_assignment(cost_mat)
+    delta = cost_mat[assignment].sum()
+
     return(delta)
