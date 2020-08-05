@@ -9,7 +9,9 @@ import tskit
 from math import log
 from math import exp
 
-def sim_pulse(L = 1e9, Ne = 10000, Tadmix = 8, Nadmix = 500, seed = None, path = None):
+def sim_pulse(L = 1e9, Ne = 10000, Nadmix = 500,
+    Tadmix = 8, frac_p0 = 0.5,
+    seed = None, path = None):
     """
     simulate a simple pulse model of admixture.
 
@@ -19,7 +21,7 @@ def sim_pulse(L = 1e9, Ne = 10000, Tadmix = 8, Nadmix = 500, seed = None, path =
     Tadmix = time of admixture
     Nadmix = number of observed admixed individuals
     seed = seed to pass to msprime.simulate
-    path = file path, if given will write the ts to this path
+    path = file path, if given will write the ts to this path (NOT IMPLEMENTED)
     """
 
 
@@ -34,9 +36,9 @@ def sim_pulse(L = 1e9, Ne = 10000, Tadmix = 8, Nadmix = 500, seed = None, path =
 
 
     pop_configs = [
-        msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0),
-        msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0),
-        msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0)
+        msprime.PopulationConfiguration(initial_size = Ne, growth_rate = 0),
+        msprime.PopulationConfiguration(initial_size = Ne, growth_rate = 0),
+        msprime.PopulationConfiguration(initial_size = Ne, growth_rate = 0)
         ]
 
     # no ongoing migration.
@@ -48,8 +50,8 @@ def sim_pulse(L = 1e9, Ne = 10000, Tadmix = 8, Nadmix = 500, seed = None, path =
 
     admixture_events = [
         # intial 50% fraction from each pop
-        msprime.MassMigration(time=Tadmix, source=2, destination=0, proportion=0.5),
-        msprime.MassMigration(time=Tadmix+1, source=2, destination=1,proportion=1.0),
+        msprime.MassMigration(time=Tadmix, source = 2, destination = 0, proportion = frac_p0),
+        msprime.MassMigration(time=Tadmix + 1, source = 2, destination = 1,proportion = 1.0),
     ]
 
     Nsamp = int(Nadmix)
