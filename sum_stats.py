@@ -36,12 +36,15 @@ def get_ternary(ts):
     # compute the ternary fractions
     ternary = np.zeros([Nind, 3], dtype = 'float64')
     for i, ind in enumerate(range(Nind)):
+        # get the unique ancestry switch points for the individual
         lefts = np.take(anc.left, np.where(anc.ind == ind))
         rights = np.take(anc.right, np.where(anc.ind == ind))
         endpoints = np.unique(np.concatenate([lefts, rights]))
+        # and the length of each ancestry segment
+        span = np.diff(endpoints)
         #  a point that should be inside each interval
         midpoints = endpoints[1:] - 1
-        span = np.diff(endpoints)
+
         # for each midpoint how many intervals it is inside?
         inside_n = np.logical_and(midpoints.reshape(-1, 1) > lefts, midpoints.reshape(-1, 1) < rights).sum(1)
         # add up the intervals that contribute to each
