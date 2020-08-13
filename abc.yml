@@ -1,0 +1,23 @@
+name: abc
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python >= 3.7
+  - numpy
+  - pandas
+  - scipy >= 1.5
+  - jupyter
+  - notebook
+  - msprime
+  - tskit
+  - matplotlib
+  - seaborn
+  - python-ternary
+  - stdpopsim
+  - tszip
+  - scikit-learn
+  - pytorch
+  - pip
+  - pip:
+    - 'sbi'
