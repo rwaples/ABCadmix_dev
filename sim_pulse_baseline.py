@@ -9,11 +9,11 @@ human_map = rec_map.get_human_rec_map()
 
 Nrep = 20
 
-for Tadmix in range(2, 50):
+for Tadmix in range(21, 50):
     res = []
     for frac in np.arange(.05, 1, .05):
         for rep in range(Nrep):
-            for attemp in range(10):
+            for attempt in range(25):
                 try:
                     ts = simulate.sim_pulse(
                         rec_map = human_map,
@@ -26,6 +26,7 @@ for Tadmix in range(2, 50):
                 except:
                     pass
                 else:
+                    print(attempt)
                     break
             else:
                 assert False, "Too many simulation errors"
