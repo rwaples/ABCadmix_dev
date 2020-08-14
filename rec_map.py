@@ -1,8 +1,9 @@
 import msprime
 import stdpopsim
 
+
 def get_human_rec_map():
-    """return a recombination map for 22 human autosomes
+    """return a (discrete) recombination map for 22 human autosomes
     There is a 1 bp region of 0.5 recombination rate between each chromosome.
     """
 
@@ -32,8 +33,8 @@ def get_human_rec_map():
     human_map = msprime.RecombinationMap(
         positions=pos_list,
         rates=rates_list,
-        num_loci=int(pos_list[-1] / 100) # not sure the best option here
-        # see: https://msprime.readthedocs.io/en/stable/tutorial.html#multiple-chromosomes
+        num_loci=int(pos_list[-1] / 100)  # not sure the best option here
+        # https://msprime.readthedocs.io/en/stable/tutorial.html#multiple-chromosomes
     )
 
     bp = human_map.get_sequence_length()

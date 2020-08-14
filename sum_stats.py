@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.optimize import linear_sum_assignment
-import tskit
 import numba as nb
+
 
 def get_ternary(ts):
     """
@@ -18,7 +18,8 @@ def get_ternary(ts):
     # match each interval in the samples to a ind from an ancestral population
     anc = ts.tables.map_ancestors(
         samples=ts.samples(),
-        ancestors=np.where((ts.tables.nodes.asdict()['population'] == 0)
+        ancestors=np.where(
+                        (ts.tables.nodes.asdict()['population'] == 0)
                         & (ts.tables.nodes.asdict()['time'] == max_node_age))[0]
         )
 
@@ -98,8 +99,9 @@ def costs_emd_parallel(A, B):
 
 
 def delta_emd(A, B):
-    """computes the minimum earth mover distance (EMD) between two arrays of ternary
-    ancestry fractions by matching up pairs of individuals, one from each array.
+    """computes the minimum earth mover distance (EMD)
+    between two arrays of ternary ancestry fractions
+    by matching up pairs of individuals, one from each array.
     """
     cost_mat = costs_emd(A, B)
     assignment = linear_sum_assignment(cost_mat)

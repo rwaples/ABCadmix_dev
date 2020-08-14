@@ -1,8 +1,9 @@
 import msprime
 
+
 def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
-            Tadmix=8, frac_p0=0.5,
-            seed=None, path=None, tszip=None):
+                Tadmix=8, frac_p0=0.5,
+                seed=None, path=None, tszip=None):
     """
     simulate a simple pulse model of admixture
     with the disrete-time backwards wright-fisher.
@@ -17,7 +18,6 @@ def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
     path = file path, if given will write the ts to this path (NOT IMPLEMENTED)
     """
 
-
     # convert to correct dtypes and catch problems
     Tadmix = int(Tadmix)
     Ne = int(Ne)
@@ -29,7 +29,6 @@ def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
     else:
         L = int(L)
         recomb_map = msprime.RecombinationMap.uniform_map(L, 1e-8, L)
-
 
     pop_configs = [
         msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0),
@@ -68,11 +67,10 @@ def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
     if path:
         if tszip:
             # save compressed ts
-            import tszip
+            import tszip # 
             tszip.compress(ts_admix, path, variants_only=False)
         else:
             # save uncompressed ts
             ts_admix.dump(path)
-
 
     return(ts_admix)
