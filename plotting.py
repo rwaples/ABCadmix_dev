@@ -5,7 +5,7 @@ import ternary
 import pandas as pd
 
 
-def plot_tern(tern, scale=100, dpi=150):
+def plot_ternary(tern, scale=100, dpi=150):
     """plots ternary ancestry fractions
     uses python-ternary package
     """
@@ -45,7 +45,7 @@ def plot_tern(tern, scale=100, dpi=150):
     tax.right_axis_label("AB", fontsize=fontsize, offset=label_offset)
     tax.bottom_axis_label("AA", fontsize=fontsize, offset=label_offset)
 
-    tax._redraw_labels() # fix possible label drawing problems
+    tax._redraw_labels()  # fix possible label drawing problems
     return(figure, tax)
 
 
@@ -63,11 +63,13 @@ def plot_Q(tern, sort=True):
     if sort:
         Q = Q.sort_values('A').reset_index(drop=True)
 
-    fig, ax = plt.subplots()
-    ax.bar(Q.index, Q['A'], width=1, label='A')
-    ax.bar(Q.index, Q['B'], width=1, label='B', bottom=Q['A'])
+    fracA, fracB = Q.mean()
+
+    figure, ax = plt.subplots()
+    ax.bar(Q.index, Q['A'], width=1, label=f'A: {fracA:.1%}')
+    ax.bar(Q.index, Q['B'], width=1, label=f'B: {fracB:.1%}', bottom=Q['A'])
     ax.legend()
     ax.set_xlim(0, len(Q))
     ax.set_ylim(0, 1)
     sns.despine()
-    return(fig, ax)
+    return(figure, ax)
