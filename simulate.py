@@ -2,7 +2,7 @@ import msprime
 
 
 def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
-                Tadmix=8, frac_p0=0.5,
+                Tadmix=8, frac=0.5,
                 seed=None, path=None, tszip=None):
     """
     simulate a simple pulse model of admixture
@@ -44,7 +44,7 @@ def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
     ]
 
     admixture_events = [
-        msprime.MassMigration(time=Tadmix, source=2, destination=1, proportion=frac_p0),
+        msprime.MassMigration(time=Tadmix, source=2, destination=1, proportion=frac),
         msprime.MassMigration(time=Tadmix + 1, source=2, destination=0, proportion=1.0),
     ]
 
@@ -237,7 +237,7 @@ def sim_ongoing_interval(rec_map=None, L=3e9, Ne=10000, Nadmix=500,
     rec_map = valid msprime recombination map
     L = length of genome, in base pairs (ignored if rec_map is specified)
 
-    Ne = diploid population size for all three populations (2*source & admixed)
+    Ne = diploid population size for all three populations
     Tadmix = time of admixture
     Nadmix = number of observed admixed individuals
     seed = seed to pass to msprime.simulate
