@@ -3,6 +3,10 @@ import simulate
 import sum_stats
 import rec_map
 
+# TODO: Multithread these simulations, allowing them to occur in parallel.
+# TODO: allow parameters to be passed to baseline simulation functions.
+# TODO: add sim functions for non pulse admixture events.
+
 def sim_pulse_baseline(Nrep=20):
     """simulates replciates of pulse admixture events"""
     human_map = rec_map.get_human_rec_map()

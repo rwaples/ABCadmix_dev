@@ -92,7 +92,7 @@ def sim_two_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
     path = file path, if given will write the ts to this path
     """
 
-    assert T2>T1
+    assert T2>T1, "T2 must be greater than T1"
 
     # convert to correct dtypes and catch problems
     T1 = int(T1)
@@ -244,7 +244,7 @@ def sim_ongoing_interval(rec_map=None, L=3e9, Ne=10000, Nadmix=500,
     path = file path, if given will write the ts to this path (NOT IMPLEMENTED)
     """
 
-    assert Tadmix_stop > Tadmix_start
+    assert Tadmix_stop > Tadmix_start, "Tadmix_stop must be greater than Tadmix_start"
 
     Tadmix_start = int(Tadmix_start)
     Tadmix_stop = int(Tadmix_stop)
