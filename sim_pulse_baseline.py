@@ -3,12 +3,11 @@ import simulate
 import sum_stats
 import rec_map
 
-
-def main():
+def sim_pulse_baseline(Nrep=20):
+    """simulates replciates of pulse admixture events"""
     human_map = rec_map.get_human_rec_map()
-    Nrep = 20
-
-    for Tadmix in range(21, 50):
+    Nrep = int(Nrep)
+    for Tadmix in range(25, 40):
         res = []
         for frac in np.arange(.05, 1, .05):
             for rep in range(Nrep):
@@ -17,15 +16,14 @@ def main():
                         ts = simulate.sim_pulse(
                             rec_map = human_map,
                             Tadmix = Tadmix,
-                            frac_p0 = frac,
+                            frac = frac,
                             Nadmix = 1000,
                             seed = None,
                             path = None
                             )
                     except:
-                        pass
+                        continue
                     else:
-                        print(attempt)
                         break
                 else:
                     assert False, "Too many simulation errors"
@@ -38,6 +36,10 @@ def main():
             ))
         np.savez_compressed(f'./pulse.T_{Tadmix}.ternary.npz', **to_save)
         print(f'Done with T: {Tadmix}')
+
+def main():
+    sim_pulse_baseline()
+
 
 if __name__ == '__main__':
     main()

@@ -30,10 +30,11 @@ def get_human_rec_map():
         else:
             pos_list.extend(pos)
 
+    num_loci = int(pos_list[-1] / 100) # loci of approx 100 bp
     human_map = msprime.RecombinationMap(
         positions=pos_list,
         rates=rates_list,
-        num_loci=int(pos_list[-1] / 100)  # not sure the best option here
+        num_loci=num_loci  # not sure the best option here
         # https://msprime.readthedocs.io/en/stable/tutorial.html#multiple-chromosomes
     )
 
@@ -42,7 +43,7 @@ def get_human_rec_map():
 
     print('''human recombination map
         sequence length (bp) {bp}
-        num_loci:
-        total recombination rate (M):: {M:0.4}'''.format(bp=int(bp), M=M))
+        num_loci: {num_loci}
+        total recombination rate (M):: {M:0.4}'''.format(bp=int(bp), num_loci=num_loci, M=M))
 
     return(human_map)
