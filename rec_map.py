@@ -2,6 +2,8 @@ import msprime
 import stdpopsim
 
 
+# TODO implement recombination maps for other species 
+
 def get_human_rec_map():
     """return a (discrete) recombination map for 22 human autosomes
     There is a 1 bp region of 0.5 recombination rate between each chromosome.

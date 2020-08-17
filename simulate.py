@@ -1,5 +1,8 @@
 import msprime
 
+# TODO: use the save_ts() function with each simulation model
+# TODO: try to standardize the parameter naming across simulation models
+
 
 def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
                 Tadmix=8, frac=0.5,
