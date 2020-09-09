@@ -4,14 +4,13 @@ import numba as nb
 
 
 def get_ternary(ts):
-    """
-    computes the ternary ancestry fractions for each individual from a ts
+    """Compute the ternary ancestry fractions for each individual from a ts.
+
     ternary = ternary ancestry fractions (N, 3) array of floats
     N = number of indiviudals
     assumes just two admixing populations
     ts = tree-sequence
     """
-
     L = ts.sequence_length
     max_node_age = ts.tables.nodes.asdict()['time'].max()
 
@@ -19,9 +18,10 @@ def get_ternary(ts):
     anc = ts.tables.map_ancestors(
         samples=ts.samples(),
         ancestors=np.where(
-                        (ts.tables.nodes.asdict()['population'] == 0)
-                        & (ts.tables.nodes.asdict()['time'] == max_node_age))[0]
-        )
+            (ts.tables.nodes.asdict()['population'] == 0)
+            & (ts.tables.nodes.asdict()['time'] == max_node_age)
+        )[0]
+    )
 
     # ancestry of each interval
     pop_of_node = dict()
@@ -31,8 +31,8 @@ def get_ternary(ts):
 
     # ind of each child (sample)
     Nsamp = len(ts.samples())
-    Nind = int(Nsamp/2)
-    ind_of_sample = dict(zip(np.arange(Nsamp), np.arange(int(Nsamp/2)).repeat(2)))
+    Nind = int(Nsamp / 2)
+    ind_of_sample = dict(zip(np.arange(Nsamp), np.arange(int(Nsamp / 2)).repeat(2)))
     anc.ind = np.vectorize(ind_of_sample.__getitem__)(anc.child)
 
     # compute the ternary fractions
@@ -49,12 +49,12 @@ def get_ternary(ts):
 
         # for each midpoint how many intervals it is inside?
         inside_n = np.logical_and(
-                        midpoints.reshape(-1, 1) > lefts,
-                        midpoints.reshape(-1, 1) < rights
-                        ).sum(1)
+            midpoints.reshape(-1, 1) > lefts,
+            midpoints.reshape(-1, 1) < rights
+        ).sum(1)
         # add up the intervals that contribute to each
-        frac_pop1pop1 = span[np.where(inside_n == 2)].sum()/L
-        frac_pop1pop2 = span[np.where(inside_n == 1)].sum()/L
+        frac_pop1pop1 = span[np.where(inside_n == 2)].sum() / L
+        frac_pop1pop2 = span[np.where(inside_n == 1)].sum() / L
         frac_pop2pop2 = 1 - (frac_pop1pop1 + frac_pop1pop2)
         ternary[i] = (frac_pop1pop1, frac_pop1pop2, frac_pop2pop2)
 
@@ -63,10 +63,12 @@ def get_ternary(ts):
 
 @nb.njit(fastmath=True, parallel=False)
 def costs_emd(A, B):
-    """given two arrays (N, 3) of ternary ancestry fractions for N individuals,
-    computes the earth mover distance (EMD) between each pair of inds,
+    """Compute the earth mover distance (EMD) between each pair of inds.
+
+    given two arrays (N, 3) of ternary ancestry fractions for N individuals,
     selecting one individual for each A and B.
-    Transportation costs for the EMD are 1 to adjacent bins. """
+    Transportation costs for the EMD are 1 to adjacent bins.
+    """
     assert A.shape[1] == 3
     assert B.shape[1] == 3
     assert A.shape[0] == B.shape[0]
@@ -82,7 +84,8 @@ def costs_emd(A, B):
 
 @nb.njit(fastmath=True, parallel=True)
 def costs_emd_parallel(A, B):
-    """parallel version of costs_emd()
+    """Parallel version of costs_emd().
+
     uses nb.prange() and parallel=True
     """
     assert A.shape[1] == 3
@@ -99,7 +102,8 @@ def costs_emd_parallel(A, B):
 
 
 def delta_emd(A, B):
-    """computes the minimum earth mover distance (EMD)
+    """Compute the minimum earth mover distance (EMD).
+
     between two arrays of ternary ancestry fractions
     by matching up pairs of individuals, one from each array.
     """

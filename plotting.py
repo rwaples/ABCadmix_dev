@@ -6,8 +6,9 @@ import pandas as pd
 
 
 def plot_ternary(tern, scale=100, dpi=150):
-    """plots ternary ancestry fractions
-    uses python-ternary package
+    """Plot ternary ancestry fractions.
+
+    Usses the python-ternary package.
     """
     assert tern.shape[1] == 3
     matplotlib.rcParams['figure.dpi'] = dpi
@@ -16,7 +17,7 @@ def plot_ternary(tern, scale=100, dpi=150):
 
     tern_df = pd.DataFrame(tern)
     tern_df.columns = ['AA', 'AB', 'BB']
-    tern_df = tern_df.div(1/scale)
+    tern_df = tern_df.div(1 / scale)
 
     size = 5
     alpha = 1
@@ -24,8 +25,8 @@ def plot_ternary(tern, scale=100, dpi=150):
                 color='blue', label="", s=size, alpha=alpha, linewidth=.5)
 
     # Set ticks and gridlines
-    tax.gridlines(color="black", multiple=scale/4, linewidth=0.5)
-    tax.ticks(axis='lbr', linewidth=1, multiple=scale/4, offset=0.02)
+    tax.gridlines(color="black", multiple=scale / 4, linewidth=0.5)
+    tax.ticks(axis='lbr', linewidth=1, multiple=scale / 4, offset=0.02)
     tax.boundary(linewidth=.5)
     # Remove default Matplotlib Axes
     tax.clear_matplotlib_ticks()
@@ -50,13 +51,12 @@ def plot_ternary(tern, scale=100, dpi=150):
 
 
 def plot_Q(tern, sort=True):
-    """produces a stacked-barplot (i.e. a 'STRUCTURE' plot)
-    from ternary ancestry fractions """
+    """Produce a stacked-barplot (i.e. a 'STRUCTURE' plot) from ternary ancestry fractions."""
     assert tern.shape[1] == 3
     tern_df = pd.DataFrame(tern)
     tern_df.columns = ['AA', 'AB', 'BB']
-    tern_df['A'] = tern_df['AA'] + tern_df['AB']/2
-    tern_df['B'] = tern_df['BB'] + tern_df['AB']/2
+    tern_df['A'] = tern_df['AA'] + tern_df['AB'] / 2
+    tern_df['B'] = tern_df['BB'] + tern_df['AB'] / 2
     Q = tern_df[['A', 'B']]
     Q = Q.div(Q.sum(1), axis=0)
 

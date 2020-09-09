@@ -3,11 +3,12 @@ import msprime
 
 
 def save_ts(ts, path, tszip=False):
-    """function to save ts to a file
-    path gives the filename
+    """Save ts to a file.
+
+    Path gives the filename
     if tszip evaluates to True, the output will be comrpessed tszip
     tszip compression can can reduce files sizes,
-    but adds time to import and export steps. 
+    but adds time to import and export steps.
     """
     if tszip:
         # save compressed ts

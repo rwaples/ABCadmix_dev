@@ -1,14 +1,14 @@
 import msprime
 import stdpopsim
 
+# TODO implement recombination maps for other species
 
-# TODO implement recombination maps for other species 
 
 def get_human_rec_map():
-    """return a (discrete) recombination map for 22 human autosomes
+    """Return a (discrete) recombination map for 22 human autosomes.
+
     There is a 1 bp region of 0.5 recombination rate between each chromosome.
     """
-
     map_of_chr = {}
     species = stdpopsim.get_species('HomSap')
     for contig in [f'chr{x}' for x in range(1, 23)]:
@@ -26,13 +26,13 @@ def get_human_rec_map():
         rates_list.extend(rates)
         if i > 1:
             shift = pos_list[-1]
-            pos = [x+1+shift for x in pos]
+            pos = [x + 1 + shift for x in pos]
             pos_list.extend(pos)
             shifts.append(shift)
         else:
             pos_list.extend(pos)
 
-    num_loci = int(pos_list[-1] / 100) # loci of approx 100 bp
+    num_loci = int(pos_list[-1] / 100)  # loci of approx 100 bp
     human_map = msprime.RecombinationMap(
         positions=pos_list,
         rates=rates_list,

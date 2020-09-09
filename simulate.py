@@ -5,15 +5,13 @@ import msprime
 
 
 def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
-                Tadmix=8, frac=0.5,
-                seed=None, path=None, tszip=None):
-    """
-    simulate a simple pulse model of admixture
-    with the disrete-time backwards wright-fisher.
+            Tadmix=8, frac=0.5,
+            seed=None, path=None, tszip=None):
+    """Simulate a simple pulse model of admixture.
 
+    With the disrete-time backwards wright-fisher.
     rec_map = valid msprime recombination map
     L = length of genome, in base pairs (ignored if rec_map is specified)
-
     Ne = diploid population size for all three populations
     Tadmix = time of admixture
     Nadmix = number of observed admixed diploid individuals
@@ -37,7 +35,7 @@ def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
         msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0),
         msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0),
         msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0)
-        ]
+    ]
 
     # no ongoing migration
     mig_mat = [
@@ -51,7 +49,7 @@ def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
         msprime.MassMigration(time=Tadmix + 1, source=2, destination=0, proportion=1.0),
     ]
 
-    samps = [msprime.Sample(population=2, time=0)] * 2*Nadmix
+    samps = [msprime.Sample(population=2, time=0)] * 2 * Nadmix
 
     ts_admix = msprime.simulate(
         population_configurations=pop_configs,
@@ -79,11 +77,11 @@ def sim_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
 
 
 def sim_two_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
-                T1=4, T2 = 12, frac1=.2, frac2=.2,
+                T1=4, T2=12, frac1=.2, frac2=.2,
                 seed=None, path=None, tszip=None):
-    """
-    simulate a simple pulse model of admixture
-    with the disrete-time backwards wright-fisher.
+    """Simulate a simple pulse model of admixture.
+
+    Using the disrete-time backwards wright-fisher.
 
     rec_map = valid msprime recombination map
     L = length of genome, in base pairs (ignored if rec_map is specified)
@@ -95,7 +93,7 @@ def sim_two_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
     path = file path, if given will write the ts to this path
     """
 
-    assert T2>T1, "T2 must be greater than T1"
+    assert T2 > T1, "T2 must be greater than T1"
 
     # convert to correct dtypes and catch problems
     T1 = int(T1)
@@ -114,7 +112,7 @@ def sim_two_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
         msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0),
         msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0),
         msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0)
-        ]
+    ]
 
     # no ongoing migration
     mig_mat = [
@@ -129,7 +127,7 @@ def sim_two_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
         msprime.MassMigration(time=T2 + 1, source=2, destination=0, proportion=1.0),
     ]
 
-    samps = [msprime.Sample(population=2, time=0)] * 2*Nadmix
+    samps = [msprime.Sample(population=2, time=0)] * 2 * Nadmix
 
     ts_admix = msprime.simulate(
         population_configurations=pop_configs,
@@ -157,16 +155,15 @@ def sim_two_pulse(rec_map=None, L=1e9, Ne=10000, Nadmix=500,
 
 
 def sim_ongoing_constant(rec_map=None, L=3e9, Ne=10000, Nadmix=500,
-                            Tadmix=8, frac_ongoing=0.05,
-                            seed=None, path=None, tszip=None):
+                        Tadmix=8, frac_ongoing=0.05,
+                        seed=None, path=None, tszip=None):
 
-    """
-    simulate an ongoing model of admixture
-    with the disrete-time backwards wright-fisher.
+    """Simulate an ongoing model of admixture.
 
+    Using the disrete-time backwards wright-fisher.
     A new population (2) is formed by splitting off from population 0.
     At time=Tadmix migration starts from population 1, with rate frac_ongoing
-    admixture continues until the present (time of sampling)
+    admixture continues until the present (time of sampling).
 
     rec_map = valid msprime recombination map
     L = length of genome, in base pairs (ignored if rec_map is specified)
@@ -193,7 +190,7 @@ def sim_ongoing_constant(rec_map=None, L=3e9, Ne=10000, Nadmix=500,
         msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0),
         msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0),
         msprime.PopulationConfiguration(initial_size=Ne, growth_rate=0)
-        ]
+    ]
 
     mig_mat = [
         [0, 0, 0],
@@ -204,10 +201,10 @@ def sim_ongoing_constant(rec_map=None, L=3e9, Ne=10000, Nadmix=500,
     admixture_events = [
         # set migration rates back to zero with the admixed population
         msprime.MigrationRateChange(time=Tadmix, rate=0, matrix_index=(2, 1)),
-        msprime.MassMigration(time=Tadmix+1, source=2, destination=0, proportion=1.0),
+        msprime.MassMigration(time=Tadmix + 1, source=2, destination=0, proportion=1.0),
     ]
 
-    samps = [msprime.Sample(population=2, time=0)] * 2*Nadmix
+    samps = [msprime.Sample(population=2, time=0)] * 2 * Nadmix
 
     ts_admix = msprime.simulate(
         population_configurations=pop_configs,
@@ -230,8 +227,9 @@ def sim_ongoing_interval(rec_map=None, L=3e9, Ne=10000, Nadmix=500,
                 seed=None, path=None, tszip=None):
 
     """
-    Simulate an ongoing model of admixture
-    with the disrete-time backwards wright-fisher.
+    Simulate an ongoing model of admixture.
+
+    With the disrete-time backwards wright-fisher.
 
     A new population (2) is formed by splitting off from population 0.
     At time=Tadmix_start migration starts from population 1,
@@ -281,7 +279,7 @@ def sim_ongoing_interval(rec_map=None, L=3e9, Ne=10000, Nadmix=500,
         msprime.MassMigration(time=Tadmix_stop + 1, source=2, destination=0, proportion=1.0),
     ]
 
-    samps = [msprime.Sample(population=2, time=0)] * 2*Nadmix
+    samps = [msprime.Sample(population=2, time=0)] * 2 * Nadmix
 
     ts_admix = msprime.simulate(
         population_configurations=pop_configs,
