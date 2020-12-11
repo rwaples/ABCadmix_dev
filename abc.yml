@@ -8,7 +8,7 @@ dependencies:
   - pandas >= 1.1
   - scipy >= 1.5
   - msprime >= 0.7.4
-  - tskit >= 0.3.3
+  - tskit >= 0.3.4
   - matplotlib >= 3.2.2
   - seaborn >= 0.11
   - python-ternary >= 1.0.7
