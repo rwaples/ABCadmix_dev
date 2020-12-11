@@ -1,5 +1,7 @@
 __pycache__/
 *.py[cod]
+*.npz
 .ipynb_checkpoints
 profile_default/
 ipython_config.py
+nohup.out
