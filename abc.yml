@@ -3,22 +3,19 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python >= 3.7
-  - numpy
-  - pandas
+  - python = 3.7
+  - numpy >= 1.19
+  - pandas >= 1.1
   - scipy >= 1.5
-  - numba
-  - jupyter
-  - notebook
-  - msprime
-  - tskit
-  - matplotlib
-  - seaborn
-  - python-ternary
-  - stdpopsim
-  - tszip
+  - msprime >= 0.7.4
+  - tskit >= 0.3.4
+  - matplotlib >= 3.2.2
+  - seaborn >= 0.11
+  - python-ternary >= 1.0.7
+  - stdpopsim >= 0.1.2
+  - tszip >= 0.1
   - scikit-learn
-  - pytorch
+  - pytorch 
   - pip
   - pip:
     - 'sbi'
