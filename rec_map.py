@@ -40,7 +40,7 @@ def get_human_rec_map(print_notice=False):
     bp = human_map.get_sequence_length()
     M = human_map.get_total_recombination_rate()
 
-    if print_notice
+    if print_notice:
         print('''human recombination map
             sequence length (bp) {bp}
             num_loci: {num_loci}
