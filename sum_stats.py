@@ -9,7 +9,7 @@ import tskit
 import msprime
 
 
-def get_ternary(ts):
+def get_ternary(ts, admixed_pop=0):
     """Compute the ternary ancestry fractions for each individual from a ts.
 
     ternary = ternary ancestry fractions (N, 3) array of floats
@@ -24,7 +24,7 @@ def get_ternary(ts):
     anc = ts.tables.map_ancestors(
         samples=ts.samples(),
         ancestors=np.where(
-            (ts.tables.nodes.asdict()['population'] == 0)
+            (ts.tables.nodes.asdict()['population'] == admixed_pop)
             & (ts.tables.nodes.asdict()['time'] == max_node_age)
         )[0]
     )
@@ -65,6 +65,8 @@ def get_ternary(ts):
         ternary[i] = (frac_pop1pop1, frac_pop1pop2, frac_pop2pop2)
 
     return(ternary)
+    
+ 
 
 
 @nb.njit(fastmath=True, parallel=False)
@@ -159,13 +161,13 @@ def autocorr3(x):
 
     return(corr)
 
-def get_ancestry_decay(ts, genetic_map):
+def get_ancestry_decay(ts, genetic_map, admixed_pop=0):
     max_node_age = ts.tables.nodes.asdict()['time'].max()
 
     # only look for ancestors from population 0
     anc = ts.tables.map_ancestors(
         samples = ts.samples(),
-        ancestors = np.where((ts.tables.nodes.asdict()['population'] == 0) & (ts.tables.nodes.asdict()['time']==max_node_age))[0]
+        ancestors = np.where((ts.tables.nodes.asdict()['population'] == admixed_pop) & (ts.tables.nodes.asdict()['time']==max_node_age))[0]
     )
 
     # ancestry of each interval
@@ -212,12 +214,12 @@ def get_ancestry_decay(ts, genetic_map):
 
 # Length of ancestry tracts
 
-def get_tract_lengths(ts, genetic_map):
+def get_tract_lengths(ts, genetic_map, admixed_pop=0):
     max_node_age = ts.tables.nodes.asdict()['time'].max()
 
     anc = ts.tables.map_ancestors(
         samples = ts.samples(),
-        ancestors = np.where((ts.tables.nodes.asdict()['population'] == 0) & (ts.tables.nodes.asdict()['time']==max_node_age))[0]
+        ancestors = np.where((ts.tables.nodes.asdict()['population'] == admixed_pop) & (ts.tables.nodes.asdict()['time']==max_node_age))[0]
     )
 
     # ancestry of each interval
